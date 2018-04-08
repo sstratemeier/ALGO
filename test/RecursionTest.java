@@ -37,12 +37,14 @@ class RecursionTest {
     void iterativeOldEuclid() {
         assertEquals(20, Recursion.iterativeOldEuclid(40, 100));
         assertEquals(1, Recursion.iterativeOldEuclid(3, 10));
+        assertEquals(23, Recursion.iterativeOldEuclid(0, 23));
     }
 
     @Test
     void recursiveOldEuclid() {
         assertEquals(20, Recursion.recursiveOldEuclid(40, 100));
         assertEquals(1, Recursion.recursiveOldEuclid(3, 10));
+        assertEquals(23, Recursion.recursiveOldEuclid(0, 23));
     }
 
     @Test
