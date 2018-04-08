@@ -1,14 +1,16 @@
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * @author Simon Stratemeier
  */
 class RecursionTest {
 
     @Test
-    void recusiveSum() {
-        assertEquals(15, Recursion.recusiveSum(5));
-        assertEquals(21, Recursion.recusiveSum(6));
+    void recursiveSum() {
+        assertEquals(15, Recursion.recursiveSum(5));
+        assertEquals(21, Recursion.recursiveSum(6));
     }
 
     @Test
@@ -53,5 +55,17 @@ class RecursionTest {
     void iterativeModernEuclid() {
         assertEquals(20, Recursion.iterativeModernEuclid(40, 100));
         assertEquals(1, Recursion.iterativeModernEuclid(3, 10));
+    }
+
+    @Test
+    void isEven() {
+        assertTrue(Recursion.isEven(6));
+        assertFalse(Recursion.isEven(5));
+    }
+
+    @Test
+    void isOdd() {
+        assertFalse(Recursion.isOdd(6));
+        assertTrue(Recursion.isOdd(5));
     }
 }
