@@ -1,3 +1,5 @@
+package Arrays;
+
 /**
  * @author Simon Stratemeier
  */
