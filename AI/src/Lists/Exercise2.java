@@ -1,7 +1,5 @@
 package Lists;
 
-import java.sql.SQLOutput;
-
 public class Exercise2 {
     public static void main(String[] args) {
         Exercise2_1.execute(null);
