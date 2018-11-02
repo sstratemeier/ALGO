@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+/**
+ * @author Simon Stratemeier
+ */
 // Source: https://de.wikipedia.org/wiki/Dijkstra-Algorithmus
 public class DijkstraAlgorithm {
     private HashMap<Node, Integer> distances = new HashMap<>();
@@ -75,6 +78,6 @@ public class DijkstraAlgorithm {
             predecessor.put(node, null);
         });
         distances.put(startNode, 0);
-        nodesToQuery = g;
+        nodesToQuery = graph;
     }
 }

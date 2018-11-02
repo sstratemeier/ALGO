@@ -1,8 +1,12 @@
 package Graph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+* @author Simon Stratemeier
+*/
 public class Exercise5 {
     public static void main(String[] args) {
         System.out.println("\nExercise 5.1");

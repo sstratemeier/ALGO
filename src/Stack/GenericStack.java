@@ -1,7 +1,5 @@
 package Stack;
 
-import java.util.Objects;
-
 public class GenericStack<T> {
     private T[] content;
     private int top = 0;
