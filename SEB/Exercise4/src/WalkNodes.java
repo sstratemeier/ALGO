@@ -11,7 +11,7 @@ public class WalkNodes {
     System.out.println("Bitte n angeben:");
     int n = scanner.nextInt();
     PathCounter pathCounter  = new PathCounter(n);
-   System.out.println("Count paths: " + pathCounter.countPaths());
+    System.out.println("Count paths: " + pathCounter.countPaths());
     System.out.println("Count points visited: " + pathCounter.countPoints());
   }
 
@@ -19,11 +19,11 @@ public class WalkNodes {
     private int n;
     private Paths[][][] cache;
 
-    public BigInteger countPaths() {
+    BigInteger countPaths() {
       return countPaths(0, 0, Vector.ZERO).getCountPaths();
     }
 
-    public BigInteger countPoints() {
+    BigInteger countPoints() {
       return countPaths(0, 0, Vector.ZERO).getCountPoints();
     }
 
@@ -37,7 +37,7 @@ public class WalkNodes {
       } else if (isCached(x, y, src)) {
         return cache[x][y][src.getCacheId()];
       } else {
-        Paths paths = Paths.ZERO;
+        Paths paths = Paths.ZERO; // Sum of all points to destination
         for (Vector vec : src.getNextVectors()) {
           paths = paths.add(countPaths(vec.x(x), vec.y(y), vec));
         }
@@ -58,41 +58,45 @@ public class WalkNodes {
       return x == n && y == 0;
     }
 
-    public PathCounter(int n) {
+    PathCounter(int n) {
       this.n = n;
       cache = new Paths[n+1][n+1][5];
     }
   }
 
+  /**
+   * Replacement of BigInt
+   * Paths-Objects have a special add method
+   */
   static class Paths {
     private BigInteger countPaths;
     private BigInteger countPoints;
 
-    public BigInteger getCountPoints() {
+    BigInteger getCountPoints() {
       return countPoints;
     }
 
-    public BigInteger getCountPaths() {
+    BigInteger getCountPaths() {
       return countPaths;
     }
 
-    public Paths(BigInteger countPaths, BigInteger countPoints) {
+    Paths(BigInteger countPaths, BigInteger countPoints) {
       this.countPaths = countPaths;
       this.countPoints = countPoints;
     }
 
-    public Paths add(Paths paths) {
+    Paths add(Paths paths) {
       return new Paths(
-          getCountPaths().add(paths.getCountPaths()),
-          getCountPoints().add(paths.getCountPaths().add(paths.getCountPoints()))
+          getCountPaths().add(paths.getCountPaths()), // Sum count paths normally
+          getCountPoints().add(paths.getCountPaths().add(paths.getCountPoints())) // Sum points + countPaths to destination because Points can be used multiple times
       );
     }
 
-    public static final Paths ZERO = new Paths(BigInteger.ZERO, BigInteger.ZERO);
-    public static final Paths ONE = new Paths(BigInteger.ONE, BigInteger.ONE);
+    static final Paths ZERO = new Paths(BigInteger.ZERO, BigInteger.ZERO);
+    static final Paths ONE = new Paths(BigInteger.ONE, BigInteger.ONE);
   }
 
-  static enum Vector {
+  enum Vector {
     RIGHT(0, 1, 0), UP(1, 0, 1), LEFTUP(2, -1, 1), RIGHTDOWN(3, 1, -1), RIGHTUP(0, 1, 1), ZERO(4, 0, 0);
 
     private int dx;
