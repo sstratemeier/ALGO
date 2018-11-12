@@ -1,9 +1,12 @@
+import java.util.Arrays;
+
 class Main {
   public static void main(String[] args) {
     int[] c;
-    int n = 4;
+    int n = 3;
     Perm p = new Perm (n);
     while ((c = p.getNext()) != null) { // Naechste Permutation
+      System.out.println(Arrays.toString(c));
     }
   }
 }

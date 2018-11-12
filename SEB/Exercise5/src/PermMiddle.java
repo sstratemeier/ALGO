@@ -9,19 +9,22 @@ public class PermMiddle {
     Scanner scanner = new Scanner(System.in);
     System.out.println("Bitte n angeben:");
     int n = scanner.nextInt();
-    PermGenerator permGenerator  = new PermGenerator(n);
     long startTime = System.nanoTime();
 
-    for(int[] permutation = permGenerator.nextElement(); permGenerator.hasMoreElements();) {
-      if(checkValid(permutation)) {
-        System.out.println(Arrays.toString(permutation));
-        count++;
-      }
+    for(int i = 0; i <= n; i++) {
+        PermGenerator permGenerator = new PermGenerator(i);
+        while (permGenerator.hasMoreElements()) {
+          int[] permutation = permGenerator.nextElement();
+          if (checkValid(permutation)) {
+            count++;
+          }
+        }
+      System.out.println("C(" + i +") = " + " \\seqsplit{" + count + "}\\\\");
+        count = 0;
     }
 
     long duration = (System.nanoTime() - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
     System.out.println("Time: " + duration + "ms");
-    System.out.println("Count: " + count);
   }
 
   static boolean checkValid(int[] arr) {
@@ -51,7 +54,7 @@ public class PermMiddle {
     private boolean nextPossibility(int column) {
       int currentValue =  permutation[column];
       int previousNum = column == 0 ? currentValue : permutation[column - 1];
-      for (int i = -n+1; i < n; i++) {
+      for (int i = -n; i <= n; i++) {
         int possibleValue = previousNum + i; // Calculate possible next num
         if (usableNumbers.contains(possibleValue) && possibleValue > currentValue && !prohibitedNumbers.contains(possibleValue)) { // If num is usable and bigger than before then set value in permutation
           set(column, possibleValue);
@@ -88,11 +91,12 @@ public class PermMiddle {
     @Override
     public boolean hasMoreElements() {
       while (indexCol >= 0) {
-        if(indexCol == n) { // Solution found
+        if (indexCol == n) { // Solution found
           nextCalculated = true;
           indexCol--; // Find other solutions
           return true;
-        } if (nextPossibility(indexCol)) { // Check if a number fits in next column
+        }
+        if (nextPossibility(indexCol)) { // Check if a number fits in next column
           indexCol++; // Working?
         } else {
           indexCol--; // Backtrack
