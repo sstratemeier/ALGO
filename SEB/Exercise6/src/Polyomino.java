@@ -1,3 +1,6 @@
+/**
+ * @author Niklas Kapelle 198980, Henri Bußmann 198632, Simon Stratemeier 199067
+ */
 public enum Polyomino{
   DOMINO1(new boolean[][] {
       { true, true }
@@ -72,6 +75,7 @@ public enum Polyomino{
       { true, true, true, true },
   });
 
+  // coverage matrix
   private final boolean[][] shape;
 
   Polyomino(boolean[][] shape){
