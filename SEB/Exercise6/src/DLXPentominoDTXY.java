@@ -1,24 +1,24 @@
-public class DLXPentominoDTXY {
-  public static void main(String[] args) {
-    int[][] matrix = new int[4][3];
-    matrix[0][0] = 1;
-    matrix[1][1] = 1;
-    matrix[2][2] = 1;
-    matrix[3][1] = 1;
+import java.util.ArrayList;
 
-    DLXNode dlxMatrix = createDLXMatrix(matrix);
+public class DLXPentominoDTXY {
+  static int width;
+  static int height = 6;
+  public static void main(String[] args) {
+    int n = 4;
+    width = n;
+    //int[][] elements = createPositions();
+    DLXNode h =  createDLXMatrix();
     DLXNode.search(0);
     System.out.println("Count: " + DLXNode.cnt);
-
-    System.out.println(dlxMatrix);
   }
 
-  public static DLXNode createDLXMatrix(int[][] matrix) {
+  public static DLXNode createDLXMatrix() {
+    int matrixWidth = width * height;
+    DLXNode[] columns = new DLXNode[matrixWidth];
     DLXNode h = DLXNode.h;
-    DLXNode[] columns = new DLXNode[matrix.length];
 
     // Create columnHeader row
-    for (int column = 0; column < matrix[0].length; column++) {
+    for (int column = 0; column < matrixWidth; column++) {
       DLXNode newColumn = new DLXNode("" + column);
 
       newColumn.R = h;
@@ -28,30 +28,52 @@ public class DLXPentominoDTXY {
       columns[column] = newColumn;
     }
 
-    for (int row = 0; row < matrix.length; row++) {
-      DLXNode rowHead = null;
-      for (int column = 0; column < matrix[0].length; column++) {
-        DLXNode columnHead = columns[column];
+    Polyomino[] polyominos = Polyomino.values();
+    for(Polyomino polyomino : polyominos) {
+      for (int i = 0; i <= width - polyomino.getWidth(); i++) {
+        for (int j = 0; j <= height - polyomino.getHeight(); j++) {
+          int[] fields = getFields(i, j, polyomino);
 
-        if (matrix[row][column] == 1) {
-          DLXNode newNode = new DLXNode(row + "|" + column);
-          if (rowHead == null) rowHead = newNode;
+          DLXNode rowHead = null;
+          for(int k = 0; k < fields.length; k++) {
+            int field = fields[k];
+            DLXNode columnHead = columns[field];
+            DLXNode newNode = new DLXNode("R"+k+"F"+field);
+            if (rowHead == null) rowHead = newNode;
 
-          newNode.C = columnHead;
-          newNode.U = columnHead.U;
-          newNode.D = columnHead;
-          newNode.L = rowHead.L;
-          newNode.R = rowHead;
+            newNode.C = columnHead;
+            newNode.U = columnHead.U;
+            newNode.D = columnHead;
+            newNode.L = rowHead.L;
+            newNode.R = rowHead;
 
-          columnHead.U.D = newNode;
-          columnHead.U = newNode;
-          rowHead.L.R = newNode;
-          rowHead.L = newNode;
+            columnHead.U.D = newNode;
+            columnHead.U = newNode;
+            rowHead.L.R = newNode;
+            rowHead.L = newNode;
+          }
         }
       }
     }
     return h;
   }
+
+
+  static int[] getFields(int left, int top, Polyomino polyomino) {
+    ArrayList<Integer> fields = new ArrayList<>();
+    boolean[][] shape = polyomino.getShape();
+
+    for (int j = 0; j < polyomino.getHeight(); j++) {
+      for (int i = 0; i < polyomino.getWidth(); i++) {
+        if(shape[j][i]) {
+          fields.add(positionToNumber(i + left, j + top));
+        }
+      }
+    }
+    return fields.stream().mapToInt(i -> i).toArray();
+  }
+
+  static int positionToNumber(int x, int y) {
+    return x + y * width;
+  }
 }
-
-
